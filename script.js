@@ -1,50 +1,25 @@
-const cells =
-    document.querySelectorAll(".cell");
+const cells = document.querySelectorAll(".cell");
 
-const statusText =
-    document.getElementById("statusText");
+const statusText = document.getElementById("statusText");
+const statusDot = document.getElementById("statusDot");
 
-const statusDot =
-    document.getElementById("statusDot");
+const playerXCard = document.getElementById("playerXCard");
+const playerOCard = document.getElementById("playerOCard");
 
-const playerXCard =
-    document.getElementById("playerXCard");
+const scoreXElement = document.getElementById("scoreX");
+const scoreOElement = document.getElementById("scoreO");
+const drawScoreElement = document.getElementById("drawScore");
 
-const playerOCard =
-    document.getElementById("playerOCard");
+const newRoundButton = document.getElementById("newRound");
+const resetButton = document.getElementById("resetIcon");
 
-const scoreXElement =
-    document.getElementById("scoreX");
+const resultOverlay = document.getElementById("resultOverlay");
+const resultSymbol = document.getElementById("resultSymbol");
+const resultTitle = document.getElementById("resultTitle");
+const resultMessage = document.getElementById("resultMessage");
+const playAgainButton = document.getElementById("playAgain");
 
-const scoreOElement =
-    document.getElementById("scoreO");
-
-const drawScoreElement =
-    document.getElementById("drawScore");
-
-const newRoundButton =
-    document.getElementById("newRound");
-
-const resetButton =
-    document.getElementById("resetIcon");
-
-const resultOverlay =
-    document.getElementById("resultOverlay");
-
-const resultSymbol =
-    document.getElementById("resultSymbol");
-
-const resultTitle =
-    document.getElementById("resultTitle");
-
-const resultMessage =
-    document.getElementById("resultMessage");
-
-const playAgainButton =
-    document.getElementById("playAgain");
-
-const winLine =
-    document.getElementById("winLine");
+const winLine = document.getElementById("winLine");
 
 
 let board = [
@@ -53,20 +28,15 @@ let board = [
     "", "", ""
 ];
 
-
 let currentPlayer = "X";
-
 let gameActive = true;
 
 let scoreX = 0;
-
 let scoreO = 0;
-
 let draws = 0;
 
 
 const winningCombinations = [
-
     [0, 1, 2],
     [3, 4, 5],
     [6, 7, 8],
@@ -77,80 +47,48 @@ const winningCombinations = [
 
     [0, 4, 8],
     [2, 4, 6]
-
 ];
 
 
 cells.forEach((cell) => {
 
-    cell.addEventListener(
-        "click",
-        () => {
+    cell.addEventListener("click", () => {
 
-            const index =
-                Number(
-                    cell.dataset.index
-                );
+        const index = Number(cell.dataset.index);
 
-
-            if (
-                board[index] !== "" ||
-                !gameActive
-            ) {
-                return;
-            }
-
-
-            board[index] =
-                currentPlayer;
-
-
-            cell.textContent =
-                currentPlayer;
-
-
-            cell.classList.add(
-                currentPlayer
-                    .toLowerCase()
-            );
-
-
-            checkGame();
-
+        if (board[index] !== "" || !gameActive) {
+            return;
         }
-    );
+
+        board[index] = currentPlayer;
+
+        cell.textContent = currentPlayer;
+        cell.classList.add(
+            currentPlayer.toLowerCase()
+        );
+
+        checkGame();
+    });
 
 });
 
 
 function checkGame() {
 
-    let winningCombination =
-        null;
+    let winningCombination = null;
 
+    for (const combination of winningCombinations) {
 
-    for (
-        const combination
-        of winningCombinations
-    ) {
-
-        const [a, b, c] =
-            combination;
-
+        const [a, b, c] = combination;
 
         if (
             board[a] &&
             board[a] === board[b] &&
             board[a] === board[c]
         ) {
-
-            winningCombination =
-                combination;
-
+            winningCombination = combination;
             break;
-
         }
-
     }
 
 
@@ -158,35 +96,17 @@ function checkGame() {
 
         gameActive = false;
 
-
-        winningCombination
-            .forEach((index) => {
-
-                cells[index]
-                    .classList
-                    .add("winner");
-
-            });
+        winningCombination.forEach((index) => {
+            cells[index].classList.add("winner");
+        });
 
 
-        if (
-            currentPlayer === "X"
-        ) {
-
+        if (currentPlayer === "X") {
             scoreX++;
-
-            scoreXElement
-                .textContent =
-                scoreX;
-
+            scoreXElement.textContent = scoreX;
         } else {
-
             scoreO++;
-
-            scoreOElement
-                .textContent =
-                scoreO;
-
+            scoreOElement.textContent = scoreO;
         }
 
 
@@ -202,57 +122,36 @@ function checkGame() {
 
         setTimeout(() => {
 
-            showWinner(
-                currentPlayer
-            );
-
+            showWinner(currentPlayer);
             createConfetti();
 
         }, 650);
 
-
         return;
-
     }
 
 
-    if (
-        !board.includes("")
-    ) {
+    if (!board.includes("")) {
 
         gameActive = false;
 
         draws++;
+        drawScoreElement.textContent = draws;
 
-        drawScoreElement
-            .textContent =
-            draws;
-
-
-        statusText.textContent =
-            "It's a draw";
-
+        statusText.textContent = "It's a draw";
 
         setTimeout(() => {
-
             showDraw();
-
         }, 350);
 
-
         return;
-
     }
 
 
     currentPlayer =
-        currentPlayer === "X"
-            ? "O"
-            : "X";
-
+        currentPlayer === "X" ? "O" : "X";
 
     updateTurn();
-
 }
 
 
@@ -262,69 +161,34 @@ function updateTurn() {
         `Player ${currentPlayer}, your turn`;
 
 
-    if (
-        currentPlayer === "X"
-    ) {
+    if (currentPlayer === "X") {
 
-        playerXCard
-            .classList
-            .add(
-                "active-player"
-            );
+        playerXCard.classList.add("active-player");
+        playerOCard.classList.remove("active-player");
 
-        playerOCard
-            .classList
-            .remove(
-                "active-player"
-            );
-
-        statusDot.style.background =
-            "#b98ca2";
+        statusDot.style.background = "#b98ca2";
 
     } else {
 
-        playerOCard
-            .classList
-            .add(
-                "active-player"
-            );
+        playerOCard.classList.add("active-player");
+        playerXCard.classList.remove("active-player");
 
-        playerXCard
-            .classList
-            .remove(
-                "active-player"
-            );
-
-        statusDot.style.background =
-            "#8795ae";
-
+        statusDot.style.background = "#8795ae";
     }
-
 }
 
 
-function drawWinningLine(
-    combination,
-    player
-) {
+function drawWinningLine(combination, player) {
 
     const firstCell =
-        cells[
-            combination[0]
-        ].getBoundingClientRect();
-
+        cells[combination[0]].getBoundingClientRect();
 
     const lastCell =
-        cells[
-            combination[2]
-        ].getBoundingClientRect();
-
+        cells[combination[2]].getBoundingClientRect();
 
     const boardRect =
         document
-            .querySelector(
-                ".board-wrapper"
-            )
+            .querySelector(".board-wrapper")
             .getBoundingClientRect();
 
 
@@ -333,18 +197,15 @@ function drawWinningLine(
         firstCell.width / 2 -
         boardRect.left;
 
-
     const startY =
         firstCell.top +
         firstCell.height / 2 -
         boardRect.top;
 
-
     const endX =
         lastCell.left +
         lastCell.width / 2 -
         boardRect.left;
-
 
     const endY =
         lastCell.top +
@@ -358,166 +219,149 @@ function drawWinningLine(
             endY - startY
         );
 
-
     const angle =
         Math.atan2(
             endY - startY,
             endX - startX
-        ) *
-        180 /
-        Math.PI;
+        ) * 180 / Math.PI;
 
 
-    winLine.style.left =
-        `${startX}px`;
-
-
-    winLine.style.top =
-        `${startY}px`;
-
+    winLine.style.left = `${startX}px`;
+    winLine.style.top = `${startY}px`;
 
     winLine.style.background =
         player === "X"
             ? "#b98ca2"
             : "#8795ae";
 
-
     winLine.style.transform =
         `rotate(${angle}deg)`;
 
-
-    winLine.style.opacity =
-        "1";
+    winLine.style.opacity = "1";
 
 
-    requestAnimationFrame(
-        () => {
-
-            winLine.style.width =
-                `${distance}px`;
-
-        }
-    );
-
+    requestAnimationFrame(() => {
+        winLine.style.width = `${distance}px`;
+    });
 }
 
 
-function showWinner(player) {
+/* -----------------------------
+   CLOUD API
+----------------------------- */
 
-    resultSymbol.textContent =
-        player;
+async function getCloudMessage() {
 
+    try {
+
+        const response =
+            await fetch("/api/message");
+
+        if (!response.ok) {
+            throw new Error("API request failed");
+        }
+
+        const data =
+            await response.json();
+
+        return data.message;
+
+    } catch (error) {
+
+        console.error(
+            "Could not get cloud message:",
+            error
+        );
+
+        return "A perfect little three in a row.";
+    }
+}
+
+
+async function showWinner(player) {
+
+    resultSymbol.textContent = player;
 
     resultTitle.textContent =
         `Player ${player} wins!`;
 
 
+    /* Message now comes from our API */
+
     resultMessage.textContent =
-        "A perfect little three in a row.";
+        "Getting a message from the cloud...";
+
+
+    const cloudMessage =
+        await getCloudMessage();
+
+
+    resultMessage.textContent =
+        cloudMessage;
 
 
     if (player === "X") {
 
-        resultSymbol
-            .style
-            .background =
+        resultSymbol.style.background =
             "#f1e4ea";
 
-
-        resultSymbol
-            .style
-            .color =
+        resultSymbol.style.color =
             "#b98ca2";
 
     } else {
 
-        resultSymbol
-            .style
-            .background =
+        resultSymbol.style.background =
             "#e5e9f0";
 
-
-        resultSymbol
-            .style
-            .color =
+        resultSymbol.style.color =
             "#8795ae";
-
     }
 
 
-    resultOverlay
-        .classList
-        .add("show");
-
+    resultOverlay.classList.add("show");
 }
 
 
 function showDraw() {
 
-    resultSymbol.textContent =
-        "♡";
+    resultSymbol.textContent = "♡";
 
-
-    resultSymbol
-        .style
-        .background =
+    resultSymbol.style.background =
         "#eeeae5";
 
-
-    resultSymbol
-        .style
-        .color =
+    resultSymbol.style.color =
         "#817a74";
-
 
     resultTitle.textContent =
         "It's a draw";
 
-
     resultMessage.textContent =
         "No winner this time. Rematch?";
 
-
-    resultOverlay
-        .classList
-        .add("show");
-
+    resultOverlay.classList.add("show");
 }
 
 
 function createConfetti() {
 
     const colors = [
-
         "#b98ca2",
         "#8795ae",
         "#d9b8c7",
         "#b8c1d1",
         "#e8d9c9"
-
     ];
 
 
-    for (
-        let i = 0;
-        i < 35;
-        i++
-    ) {
+    for (let i = 0; i < 35; i++) {
 
         const piece =
-            document
-                .createElement(
-                    "div"
-                );
+            document.createElement("div");
 
-
-        piece.classList
-            .add("confetti");
-
+        piece.classList.add("confetti");
 
         piece.style.left =
             `${Math.random() * 100}vw`;
-
 
         piece.style.background =
             colors[
@@ -527,23 +371,16 @@ function createConfetti() {
                 )
             ];
 
-
         piece.style.animationDelay =
             `${Math.random() * 0.4}s`;
 
-
-        document.body
-            .appendChild(piece);
+        document.body.appendChild(piece);
 
 
         setTimeout(() => {
-
             piece.remove();
-
         }, 2200);
-
     }
-
 }
 
 
@@ -555,93 +392,56 @@ function newRound() {
         "", "", ""
     ];
 
-
     currentPlayer = "X";
-
     gameActive = true;
 
 
-    cells.forEach(
-        (cell) => {
+    cells.forEach((cell) => {
 
-            cell.textContent =
-                "";
+        cell.textContent = "";
 
-
-            cell.classList
-                .remove(
-                    "x",
-                    "o",
-                    "winner"
-                );
-
-        }
-    );
+        cell.classList.remove(
+            "x",
+            "o",
+            "winner"
+        );
+    });
 
 
-    winLine.style.width =
-        "0";
+    winLine.style.width = "0";
+    winLine.style.opacity = "0";
 
-
-    winLine.style.opacity =
-        "0";
-
-
-    resultOverlay
-        .classList
-        .remove("show");
-
+    resultOverlay.classList.remove("show");
 
     updateTurn();
-
 }
 
 
 function resetGame() {
 
     scoreX = 0;
-
     scoreO = 0;
-
     draws = 0;
 
-
-    scoreXElement
-        .textContent =
-        0;
-
-
-    scoreOElement
-        .textContent =
-        0;
-
-
-    drawScoreElement
-        .textContent =
-        0;
-
+    scoreXElement.textContent = 0;
+    scoreOElement.textContent = 0;
+    drawScoreElement.textContent = 0;
 
     newRound();
-
 }
 
 
-newRoundButton
-    .addEventListener(
-        "click",
-        newRound
-    );
+newRoundButton.addEventListener(
+    "click",
+    newRound
+);
 
+resetButton.addEventListener(
+    "click",
+    resetGame
+);
 
-resetButton
-    .addEventListener(
-        "click",
-        resetGame
-    );
-
-
-playAgainButton
-    .addEventListener(
-        "click",
-        newRound
-    );
+playAgainButton.addEventListener(
+    "click",
+    newRound
+);
