@@ -1,0 +1,685 @@
+:root {
+    --background: #f3f0eb;
+    --surface: #fbfaf8;
+    --text: #252321;
+    --muted: #918b85;
+    --line: #ded9d3;
+
+    --x: #b98ca2;
+    --x-soft: #f1e4ea;
+
+    --o: #8795ae;
+    --o-soft: #e5e9f0;
+}
+
+
+* {
+    box-sizing: border-box;
+}
+
+
+body {
+    margin: 0;
+    min-height: 100vh;
+
+    display: grid;
+    place-items: center;
+
+    padding: 30px 20px;
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    background:
+        radial-gradient(
+            circle at 15% 10%,
+            #eadde3,
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 85% 85%,
+            #dde2eb,
+            transparent 30%
+        ),
+        var(--background);
+
+    color: var(--text);
+}
+
+
+/* GAME WINDOW */
+
+.game {
+    width: min(100%, 470px);
+
+    padding: 34px;
+
+    background: rgba(251, 250, 248, 0.92);
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.8);
+
+    border-radius: 30px;
+
+    box-shadow:
+        0 25px 70px
+        rgba(62, 54, 49, 0.12);
+
+    backdrop-filter: blur(20px);
+}
+
+
+/* HEADER */
+
+.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    margin-bottom: 30px;
+}
+
+
+.eyebrow {
+    color: var(--muted);
+
+    font-size: 0.65rem;
+    font-weight: 700;
+
+    letter-spacing: 0.18em;
+}
+
+
+h1 {
+    margin: 2px 0 0;
+
+    font-family: Georgia, serif;
+
+    font-size: 3.5rem;
+    font-weight: 400;
+
+    letter-spacing: -0.08em;
+}
+
+
+.reset-icon {
+    width: 42px;
+    height: 42px;
+
+    border:
+        1px solid
+        var(--line);
+
+    border-radius: 50%;
+
+    background: transparent;
+
+    color: var(--muted);
+
+    font-size: 1.2rem;
+
+    cursor: pointer;
+
+    transition: 0.25s ease;
+}
+
+
+.reset-icon:hover {
+    color: var(--text);
+
+    background: white;
+
+    transform: rotate(-45deg);
+}
+
+
+/* SCOREBOARD */
+
+.scoreboard {
+    display: grid;
+
+    grid-template-columns:
+        1fr auto 1fr;
+
+    gap: 12px;
+
+    align-items: stretch;
+
+    margin-bottom: 25px;
+}
+
+
+.player {
+    padding: 14px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    border:
+        1px solid
+        var(--line);
+
+    border-radius: 16px;
+
+    transition: 0.25s ease;
+}
+
+
+.symbol {
+    width: 34px;
+    height: 34px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 10px;
+
+    font-family: Georgia, serif;
+    font-size: 1.25rem;
+}
+
+
+#playerXCard .symbol {
+    color: var(--x);
+    background: var(--x-soft);
+}
+
+
+#playerOCard .symbol {
+    color: var(--o);
+    background: var(--o-soft);
+}
+
+
+.player div {
+    display: flex;
+    flex-direction: column;
+}
+
+
+small {
+    color: var(--muted);
+
+    font-size: 0.55rem;
+    font-weight: 700;
+
+    letter-spacing: 0.1em;
+}
+
+
+.player strong,
+.draws strong {
+    margin-top: 3px;
+
+    font-size: 1.1rem;
+}
+
+
+.draws {
+    min-width: 55px;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+}
+
+
+.active-player {
+    background: white;
+
+    box-shadow:
+        0 8px 20px
+        rgba(50, 45, 40, 0.06);
+}
+
+
+/* STATUS */
+
+.status {
+    margin-bottom: 18px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+}
+
+
+.status p {
+    margin: 0;
+
+    color: var(--muted);
+
+    font-size: 0.78rem;
+}
+
+
+#statusDot {
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: var(--x);
+}
+
+
+/* BOARD */
+
+.board-wrapper {
+    position: relative;
+}
+
+
+.board {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    border-top:
+        1px solid var(--line);
+
+    border-left:
+        1px solid var(--line);
+}
+
+
+.cell {
+    aspect-ratio: 1;
+
+    display: grid;
+    place-items: center;
+
+    border: none;
+
+    border-right:
+        1px solid var(--line);
+
+    border-bottom:
+        1px solid var(--line);
+
+    background: transparent;
+
+    font-family: Georgia, serif;
+
+    font-size:
+        clamp(2.7rem, 12vw, 4.3rem);
+
+    font-weight: 400;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.15s ease;
+}
+
+
+.cell:hover:empty {
+    background:
+        rgba(255, 255, 255, 0.75);
+}
+
+
+.cell:active {
+    transform: scale(0.94);
+}
+
+
+.cell.x {
+    color: var(--x);
+}
+
+
+.cell.o {
+    color: var(--o);
+}
+
+
+.cell.winner {
+    background:
+        rgba(255, 255, 255, 0.75);
+
+    animation:
+        winnerPulse 0.55s ease;
+}
+
+
+@keyframes winnerPulse {
+
+    50% {
+        transform: scale(0.9);
+    }
+
+}
+
+
+/* WINNING LINE */
+
+#winLine {
+    position: absolute;
+
+    height: 4px;
+    width: 0;
+
+    top: 0;
+    left: 0;
+
+    border-radius: 100px;
+
+    background: var(--x);
+
+    transform-origin:
+        left center;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    z-index: 5;
+
+    transition:
+        width 0.45s ease,
+        opacity 0.2s ease;
+}
+
+
+/* BUTTON */
+
+.new-round {
+    width: 100%;
+
+    margin-top: 28px;
+
+    padding: 14px;
+
+    border: none;
+
+    border-radius: 14px;
+
+    background: var(--text);
+
+    color: white;
+
+    font-size: 0.8rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.new-round:hover {
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 10px 25px
+        rgba(37, 35, 33, 0.18);
+}
+
+
+.footer-text {
+    margin: 18px 0 0;
+
+    text-align: center;
+
+    color: #aaa49e;
+
+    font-family: Georgia, serif;
+
+    font-size: 0.72rem;
+
+    font-style: italic;
+}
+
+
+/* RESULT SCREEN */
+
+.result-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 100;
+
+    display: grid;
+    place-items: center;
+
+    padding: 20px;
+
+    background:
+        rgba(35, 31, 35, 0.28);
+
+    backdrop-filter: blur(8px);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transition:
+        opacity 0.3s ease,
+        visibility 0.3s ease;
+}
+
+
+.result-overlay.show {
+    opacity: 1;
+
+    visibility: visible;
+}
+
+
+.result-card {
+    width:
+        min(90%, 350px);
+
+    padding: 38px 30px;
+
+    text-align: center;
+
+    background: #fbfaf8;
+
+    border-radius: 28px;
+
+    box-shadow:
+        0 30px 80px
+        rgba(30, 25, 30, 0.2);
+
+    transform:
+        translateY(20px)
+        scale(0.96);
+
+    transition:
+        transform 0.35s ease;
+}
+
+
+.result-overlay.show
+.result-card {
+    transform:
+        translateY(0)
+        scale(1);
+}
+
+
+.result-small {
+    color: var(--muted);
+
+    font-size: 0.6rem;
+
+    font-weight: 700;
+
+    letter-spacing: 0.18em;
+}
+
+
+.result-symbol {
+    width: 85px;
+    height: 85px;
+
+    margin:
+        24px auto 18px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 50%;
+
+    background: var(--x-soft);
+
+    color: var(--x);
+
+    font-family: Georgia, serif;
+
+    font-size: 3rem;
+
+    animation:
+        resultPop 0.5s ease;
+}
+
+
+.result-card h2 {
+    margin: 0;
+
+    font-family: Georgia, serif;
+
+    font-size: 1.8rem;
+
+    font-weight: 400;
+}
+
+
+.result-card p {
+    margin:
+        10px 0 25px;
+
+    color: var(--muted);
+
+    font-size: 0.85rem;
+}
+
+
+#playAgain {
+    width: 100%;
+
+    padding: 13px;
+
+    border: none;
+
+    border-radius: 13px;
+
+    background: var(--text);
+
+    color: white;
+
+    cursor: pointer;
+
+    font-weight: 600;
+}
+
+
+#playAgain:hover {
+    opacity: 0.88;
+}
+
+
+@keyframes resultPop {
+
+    0% {
+        transform:
+            scale(0.4)
+            rotate(-10deg);
+    }
+
+    70% {
+        transform:
+            scale(1.1)
+            rotate(3deg);
+    }
+
+    100% {
+        transform:
+            scale(1)
+            rotate(0);
+    }
+
+}
+
+
+/* CONFETTI */
+
+.confetti {
+    position: fixed;
+
+    width: 9px;
+    height: 14px;
+
+    top: -20px;
+
+    z-index: 200;
+
+    border-radius: 3px;
+
+    pointer-events: none;
+
+    animation:
+        confettiFall
+        1.7s linear forwards;
+}
+
+
+@keyframes confettiFall {
+
+    to {
+        transform:
+            translateY(110vh)
+            rotate(720deg);
+
+        opacity: 0;
+    }
+
+}
+
+
+/* MOBILE */
+
+@media (max-width: 480px) {
+
+    .game {
+        padding: 25px 20px;
+
+        border-radius: 24px;
+    }
+
+
+    .scoreboard {
+        gap: 7px;
+    }
+
+
+    .player {
+        padding: 10px;
+    }
+
+
+    .symbol {
+        width: 29px;
+        height: 29px;
+    }
+
+}

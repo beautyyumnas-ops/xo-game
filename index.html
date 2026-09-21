@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XO — Tic Tac Toe</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="game">
+
+        <div class="top">
+            <div>
+                <span class="eyebrow">TIC TAC TOE</span>
+                <h1>XO.</h1>
+            </div>
+
+            <button class="reset-icon" id="resetIcon" aria-label="Reset game">
+                ↻
+            </button>
+        </div>
+
+
+        <section class="scoreboard">
+
+            <div class="player active-player" id="playerXCard">
+                <span class="symbol">X</span>
+
+                <div>
+                    <small>PLAYER ONE</small>
+                    <strong id="scoreX">0</strong>
+                </div>
+            </div>
+
+
+            <div class="draws">
+                <small>DRAWS</small>
+                <strong id="drawScore">0</strong>
+            </div>
+
+
+            <div class="player" id="playerOCard">
+                <span class="symbol">O</span>
+
+                <div>
+                    <small>PLAYER TWO</small>
+                    <strong id="scoreO">0</strong>
+                </div>
+            </div>
+
+        </section>
+
+
+        <section class="status">
+            <span id="statusDot"></span>
+            <p id="statusText">Player X, your turn</p>
+        </section>
+
+
+        <div class="board-wrapper">
+
+            <section class="board" id="board">
+
+                <button class="cell" data-index="0"></button>
+                <button class="cell" data-index="1"></button>
+                <button class="cell" data-index="2"></button>
+
+                <button class="cell" data-index="3"></button>
+                <button class="cell" data-index="4"></button>
+                <button class="cell" data-index="5"></button>
+
+                <button class="cell" data-index="6"></button>
+                <button class="cell" data-index="7"></button>
+                <button class="cell" data-index="8"></button>
+
+            </section>
+
+            <div id="winLine"></div>
+
+        </div>
+
+
+        <button class="new-round" id="newRound">
+            New round
+        </button>
+
+        <p class="footer-text">
+            two players · one tiny board
+        </p>
+
+    </main>
+
+
+    <div class="result-overlay" id="resultOverlay">
+
+        <div class="result-card">
+
+            <span class="result-small">
+                ROUND COMPLETE
+            </span>
+
+            <div class="result-symbol" id="resultSymbol">
+                X
+            </div>
+
+            <h2 id="resultTitle">
+                Player X wins!
+            </h2>
+
+            <p id="resultMessage">
+                A perfect little three in a row.
+            </p>
+
+            <button id="playAgain">
+                Play again
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
